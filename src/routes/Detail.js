@@ -28,6 +28,7 @@ const Container = styled.div`
 
 const Column = styled.div`
     margin-left: 10px;
+    width: 50%;
 `;
 
 const Title = styled.h1`
@@ -46,8 +47,11 @@ const Description = styled.p`
 
 const Poster = styled.div`
     width: 25%;
-    height: 60%
+    height: 60%;
     background-color: transparent;
+    background-image: url(${(props) => props.bg});
+    background-size: cover;
+    background-position: center center;
 `;
 
 const Loading = styled.div`
@@ -62,7 +66,6 @@ export default () => {
     const { loading, data } = useQuery(queryMovie, {
         variables: { id: parseInt(id) },
     });
-    console.log(data);
     return (
         <Container>
             {loading && <Loading>Loading...</Loading>}
@@ -71,18 +74,13 @@ export default () => {
                     <Column>
                         <Title>{data.movie.title}</Title>
                         <Subtitle>
-                            {data.movie.language} {data.movie.rating}
+                            {data.movie.language} ・ {data.movie.rating}
                         </Subtitle>
                         <Description>
                             {data.movie.description_intro}
                         </Description>
                     </Column>
-                    <Poster>
-                        <img
-                            src={data.movie.medium_cover_image}
-                            alt={data.movie.title}
-                        />
-                    </Poster>
+                    <Poster bg={data.movie.medium_cover_image} />
                 </>
             )}
         </Container>
