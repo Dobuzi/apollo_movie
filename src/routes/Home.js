@@ -66,17 +66,15 @@ export default () => {
                 <Subtitle>React, Apollo and GraphQL</Subtitle>
             </Header>
             {loading && <Loading>Loading...</Loading>}
-            {!loading && data.movies && (
-                <Movies>
-                    {data.movies.map((movie) => (
-                        <Movie
-                            key={movie.id}
-                            id={movie.id}
-                            bg={movie.medium_cover_image}
-                        />
-                    ))}
-                </Movies>
-            )}
+            <Movies>
+                {data?.movies?.map((movie) => (
+                    <Movie
+                        key={movie.id}
+                        id={movie.id}
+                        bg={movie.medium_cover_image}
+                    />
+                ))}
+            </Movies>
         </Container>
     );
 };

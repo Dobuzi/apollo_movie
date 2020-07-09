@@ -13,6 +13,10 @@ const queryMovie = gql`
             rating
             description_intro
         }
+        suggestions(id: $id) {
+            id
+            medium_cover_image
+        }
     }
 `;
 
@@ -69,20 +73,14 @@ export default () => {
     return (
         <Container>
             {loading && <Loading>Loading...</Loading>}
-            {!loading && data.movie && (
-                <>
-                    <Column>
-                        <Title>{data.movie.title}</Title>
-                        <Subtitle>
-                            {data.movie.language} ・ {data.movie.rating}
-                        </Subtitle>
-                        <Description>
-                            {data.movie.description_intro}
-                        </Description>
-                    </Column>
-                    <Poster bg={data.movie.medium_cover_image} />
-                </>
-            )}
+            <Column>
+                <Title>{data?.movie?.title}</Title>
+                <Subtitle>
+                    {data?.movie?.language} ・ {data?.movie?.rating}
+                </Subtitle>
+                <Description>{data?.movie?.description_intro}</Description>
+            </Column>
+            <Poster bg={data?.movie?.medium_cover_image} />
         </Container>
     );
 };
