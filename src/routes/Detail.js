@@ -7,11 +7,13 @@ import styled from "styled-components";
 const queryMovie = gql`
     query getMovie($id: Int!) {
         movie(id: $id) {
+            id
             title
             medium_cover_image
             language
             rating
             description_intro
+            isLiked @client
         }
         suggestions(id: $id) {
             id
@@ -59,13 +61,6 @@ const Poster = styled.div`
     border-radius: 7px;
 `;
 
-const Loading = styled.div`
-    font-size: 18px;
-    opacity: 0.5;
-    font-weight: 500;
-    margin-top: 10px;
-`;
-
 export default () => {
     const { id } = useParams();
     const { loading, data } = useQuery(queryMovie, {
@@ -73,9 +68,14 @@ export default () => {
     });
     return (
         <Container>
-            {loading && <Loading>Loading...</Loading>}
             <Column>
-                <Title>{data?.movie?.title}</Title>
+                <Title>
+                    {loading
+                        ? "Loading..."
+                        : `${data?.movie?.title} ${
+                              data.movie.isLiked ? "😍" : "🤨"
+                          }`}
+                </Title>
                 <Subtitle>
                     {data?.movie?.language} ・ {data?.movie?.rating}
                 </Subtitle>
