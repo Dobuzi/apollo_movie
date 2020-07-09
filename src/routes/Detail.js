@@ -56,6 +56,7 @@ const Poster = styled.div`
     background-image: url(${(props) => props.bg});
     background-size: cover;
     background-position: center center;
+    border-radius: 7px;
 `;
 
 const Loading = styled.div`
