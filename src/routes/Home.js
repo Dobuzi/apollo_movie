@@ -58,8 +58,19 @@ const Movies = styled.div`
     top: -50px;
 `;
 
+const saveIsLiked = (movies) => {
+    movies.forEach((movie) => {
+        localStorage.setItem(movie.id, movie.isLiked);
+        console.log(localStorage.getItem(movie.id));
+    });
+};
+
 export default () => {
     const { loading, data } = useQuery(queryMovies);
+    if (data?.movies) {
+        saveIsLiked(data.movies);
+    }
+
     return (
         <Container>
             <Header>

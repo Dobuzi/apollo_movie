@@ -4,7 +4,12 @@ const client = new ApolloClient({
     uri: "http://localhost:4000/#/",
     resolvers: {
         Movie: {
-            isLiked: () => false,
+            isLiked: ({ id }) => {
+                console.log(localStorage.getItem(id));
+                return localStorage.getItem(id)
+                    ? localStorage.getItem(id).value
+                    : false;
+            },
         },
         Mutation: {
             toggleLikeMovie: (_, { id, isLiked }, { cache }) => {
