@@ -61,7 +61,6 @@ const Movies = styled.div`
 const saveIsLiked = (movies) => {
     movies.forEach((movie) => {
         localStorage.setItem(movie.id, movie.isLiked);
-        console.log(localStorage.getItem(movie.id));
     });
 };
 

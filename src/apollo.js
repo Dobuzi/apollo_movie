@@ -5,10 +5,7 @@ const client = new ApolloClient({
     resolvers: {
         Movie: {
             isLiked: ({ id }) => {
-                console.log(localStorage.getItem(id));
-                return localStorage.getItem(id)
-                    ? localStorage.getItem(id).value
-                    : false;
+                return localStorage.getItem(id) === "true" ? true : false;
             },
         },
         Mutation: {

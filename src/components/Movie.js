@@ -16,15 +16,23 @@ const Container = styled.div`
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
     border-radius: 7px;
     background-color: transparent;
+    margin: 20px;
 `;
 
-const Poster = styled.div`
+const Poster = styled.button`
     background-image: url(${(props) => props.bg});
     height: 100%;
     width: 100%;
     background-size: cover;
     background-position: center center;
     border-radius: 7px;
+`;
+
+const Button = styled.div`
+    margin: 5px;
+    background-color: Transparent;
+    cursor: pointer;
+    font-size: 30px;
 `;
 
 export default ({ id, bg, isLiked }) => {
@@ -36,7 +44,7 @@ export default ({ id, bg, isLiked }) => {
             <Link to={`/${id}`}>
                 <Poster bg={bg} />
             </Link>
-            <button onClick={toggleLikeMovie}>{isLiked ? "😍" : "🤨"}</button>
+            <Button onClick={toggleLikeMovie}>{isLiked ? "😍" : "🤨"}</Button>
         </Container>
     );
 };

@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { gql } from "apollo-boost";
 import { useQuery } from "@apollo/react-hooks";
 import styled from "styled-components";
+import Suggestion from "../components/Suggestion";
 
 const queryMovie = gql`
     query getMovie($id: Int!) {
@@ -27,12 +28,23 @@ const Container = styled.div`
     background-image: linear-gradient(-45deg, #d754ab, #fd723a);
     width: 100%;
     display: flex;
+    flex-direction: column;
     justify-content: space-around;
     align-items: center;
     color: white;
 `;
+const SubContainer = styled.div`
+    height: 50vh;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+`;
 
 const Column = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: left;
     margin-left: 10px;
     width: 50%;
 `;
@@ -53,12 +65,18 @@ const Description = styled.p`
 
 const Poster = styled.div`
     width: 25%;
-    height: 60%;
+    height: 80%;
     background-color: transparent;
     background-image: url(${(props) => props.bg});
     background-size: cover;
     background-position: center center;
     border-radius: 7px;
+`;
+
+const Movies = styled.div`
+    display: flex;
+    width: 100%;
+    position: relative;
 `;
 
 export default () => {
@@ -67,21 +85,45 @@ export default () => {
         variables: { id: parseInt(id) },
     });
     return (
-        <Container>
-            <Column>
-                <Title>
-                    {loading
-                        ? "Loading..."
-                        : `${data?.movie?.title} ${
-                              data.movie.isLiked ? "😍" : "🤨"
-                          }`}
-                </Title>
-                <Subtitle>
-                    {data?.movie?.language} ・ {data?.movie?.rating}
-                </Subtitle>
-                <Description>{data?.movie?.description_intro}</Description>
-            </Column>
-            <Poster bg={data?.movie?.medium_cover_image} />
-        </Container>
+        <>
+            <Container>
+                <Title>{loading ? "Loading ..." : ""}</Title>
+                <SubContainer>
+                    <Column>
+                        <Title>
+                            {loading
+                                ? ""
+                                : `${data?.movie?.title} ${
+                                      data?.movie?.isLiked ? "😍" : "🤨"
+                                  }`}
+                        </Title>
+                        <Subtitle>
+                            {loading
+                                ? ""
+                                : `${data?.movie?.language} ・ ${data?.movie?.rating}`}
+                        </Subtitle>
+                        <Description>
+                            {loading ? "" : data?.movie?.description_intro}
+                        </Description>
+                    </Column>
+                    <Poster
+                        bg={loading ? "" : data?.movie?.medium_cover_image}
+                    />
+                </SubContainer>
+                <SubContainer>
+                    <Movies>
+                        {loading
+                            ? ""
+                            : data?.suggestions?.map((suggestion) => (
+                                  <Suggestion
+                                      key={suggestion.id}
+                                      id={suggestion.id}
+                                      bg={suggestion.medium_cover_image}
+                                  />
+                              ))}
+                    </Movies>
+                </SubContainer>
+            </Container>
+        </>
     );
 };
